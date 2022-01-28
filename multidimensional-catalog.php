@@ -19,3 +19,4 @@ $products = [
 echo '<pre>';
 var_dump($products);
 
+?>

@@ -1,0 +1,16 @@
+.products {
+    display: flex;
+    justify-content : center;
+}
+
+.card_Pineapple {
+    margin-left: 10vw;
+    text-align: center;
+    border : solid;
+    border : dashed #f1b849;
+}
+
+.card_Banana {
+    text-align: center;
+    border : dashed #f1b849;
+}

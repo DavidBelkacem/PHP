@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./styles/style_catalog.css" />
         <title>multidimensional catalog</title>
     </head>
     <body>
@@ -12,10 +13,9 @@
             include "./my_functions.php";
         ?>
 
-        <!-- header 
         <?php 
-            include "../Etape2/header.html"
-        ?>
+            include "./header.html";
+        ?> 
 
         <?php
 
@@ -25,7 +25,7 @@
                 "price" => 2,
                 "weight" => 1,
                 "discount" => null,
-                "picture_url" => "https://www.jelly-shop.fr/resize/FABF6B_13788762637760.jpg/0/1100/True/jellycat-fruit-fabuleux-banane-17cm.jpg",
+                "picture_url" => "https://media.lactualite.com/2014/08/banane.jpg",
             ],
             "pineapple" => [
                 "name" => "pineapple",
@@ -37,7 +37,7 @@
         ];
 
         foreach ($products as $fruit => $features) {
-            echo "$fruit :" . "<br>";
+            echo "<span class= \"fruit_name\"> $fruit </span>" . "<br>";
             foreach ($features as $feature => $value) {
                 if ($feature != "picture_url") {
                     echo "$feature of the product is $value";
@@ -62,6 +62,11 @@
             echo "<br>";
         }
         ?>
+
+        <?php 
+            include "./footer.html";
+        ?> 
+
     </body>
 </html>
 
