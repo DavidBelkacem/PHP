@@ -4,8 +4,14 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <link rel="stylesheet" href="./styles/style_catalog.css"/>
-        <title>multidimensional catalog</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet"> 
+
+        <title>Tiki's Catalog</title>
     </head>
     <body>
 
@@ -18,36 +24,39 @@
         <div class = "products">
             <?php
             foreach ($products as $fruit => $features) {
-                echo "<div class=\"card_${fruit}\">";
-                echo "<span class= \"fruit_name\"> $fruit </span>" . "<br>";
+                echo "<div class=\"card_${fruit} card_fruit\">";
                 foreach ($features as $feature => $value) {
                     if ($feature === "price") {
-                        echo "<br> Price : ";
-                        formatPrice($features[$feature]);
-                        $priceNoVAT = priceExcludingVAT($features[$feature]);
-                        echo "<br>" . "Excluding VAT : "; 
-                        formatPrice($priceNoVAT);
-                        echo "<br>";
+                        echo "<span class= \"fruit_name\"> $fruit </span>";
+                        if ($features["discount"] !== 0) {
+                            displayCrossedOutPrice($features["price"]);
+                        } else {
+                            displayPrice($features["price"]);
+                        }
+                        displayNoVATprice($features["price"]);
                     }
                     elseif ($feature === "discount") {
                         if ($value !== 0) {
-                            echo "NEW PRICE ! ${value} % discount : ";
-                            formatPrice(displayDiscountedPrice($features["price"], $value));
+                            displayDiscountedPrice($features["price"], $value);
                         } 
                         else {
                             echo "<br>";
                         }
                     }
                     elseif ($feature === "picture_url") {
-                        echo "<img src=${features["picture_url"]} alt= ${features["name"]} size>" ;
+                        displayFruitPicture($features["picture_url"] , $features["name"]);
                     } 
                 }
-                echo "<form method=\"get\">
-                    Quantity : <input type=\"number\" name=\"${fruit}_quantity\" size=\"7\">
+                echo "<form method=\"POST\" action=\".\cart.php\">
+                    Quantity : <input type=\"number\" action=\"cart.php\" min=\"0\" name=\"quantity\" size=\"4\">
+                    <button type=\"submit\"> ADD TO BAG</button>
+                    <input type=\"hidden\" name=\"selectedFruit\" value=\"${fruit}\">
                     </form>";
                 echo "</div>";
                 echo "<br> <br>";
             }
+
+            var_dump($_GET);
             ?>
         </div>     
     </body>
