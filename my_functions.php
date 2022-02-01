@@ -1,10 +1,14 @@
 <?php
     function formatPrice(float $price) {
-        echo number_format($price/100, 2, ".", " ") . " €";
+        echo number_format($price/100, 2, ".") . " €";
     }
 
     function formatPriceWithReturn(float $price) {
-        return number_format($price/100, 2, ".", " ");
+        return number_format($price/100, 2, ",", " ") ;
+    }
+
+    function formatNumber(int $number) {
+        return number_format($number, 0, ",", " ");
     }
 
     function priceExcludingVAT(float $price) : float {
@@ -39,30 +43,30 @@
     }
     
     function displayFruitPicture($url, $alt) {
-        echo "<img class=\"fruitPicture\" src=${url} alt= ${alt} >" ;
+        echo "<img class=\"fruitPicture\" src=${url} alt=${alt}>" ;
     }
 
     function calculateTotalPrice(string $price, string $quantity) {
-        return $price * $quantity;
+        return (float)$price * (float)$quantity;
     }
 
     function shippingCostsDHL($weight, $totalPrice) {
-        if ($weight < 500) {
-            return 5.00;
-        } elseif (500 <= $weight and $weight < 2000 ) {
-            return ($totalPrice * 0.1);
+        if ($weight < 2000) {
+            return 300;
+        } elseif (2000 <= $weight and $weight < 5000 ) {
+            return ($totalPrice * 0.05 + 300);
         } else {
-            return ($totalPrice * 0.04);;
+            return ($totalPrice * 0.04 + 250);;
         }
     }
     
     function shippingCostsLaPoste($weight, $totalPrice) {
-        if ($weight < 500) {
-            return 9.00;
-        } elseif (500 <= $weight and $weight < 2000) {
-            return ($totalPrice * 0.08);
+        if ($weight < 2000) {
+            return 250;
+        } elseif (2000 <= $weight and $weight < 5000) {
+            return ($totalPrice * 0.03 + 200);
         } else {
-            return ($totalPrice * 0.05);
+            return ($totalPrice * 0.06 + 150);
         }
     }
 

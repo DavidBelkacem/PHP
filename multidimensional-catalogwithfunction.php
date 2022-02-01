@@ -16,7 +16,7 @@
     <body>
 
         <?php 
-            include "./my_functions.php";
+            require "./my_functions.php";
             include "./header.html";
             include "./array_products.php";
         ?>
@@ -48,17 +48,15 @@
                     } 
                 }
                 echo "<form method=\"POST\" action=\".\cart.php\">
-                    Quantity : <input type=\"number\" action=\"cart.php\" min=\"0\" name=\"quantity\" size=\"4\">
+                    Quantity : <input type=\"number\" action=\"cart.php\" min=\"1\" name=\"quantity\" size=\"6\" required>
                     <button type=\"submit\"> ADD TO BAG</button>
                     <input type=\"hidden\" name=\"selectedFruit\" value=\"${fruit}\">
                     </form>";
                 echo "</div>";
                 echo "<br> <br>";
             }
-
-            var_dump($_GET);
             ?>
-        </div>     
+        </div>    
     </body>
 </html>
 

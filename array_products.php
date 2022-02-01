@@ -28,7 +28,7 @@
             "weight" => 250,
             "discount" => 5,
         ],  
-        "Dragon_Fruit" => [
+        "Dragon Fruit" => [
             "name" => "dragonfruit",
             "picture_url" => "https://www.foodness.it/wp-content/uploads/2018/08/foodness-dragon-fruit-300x300.jpg",
             "price" => 143,

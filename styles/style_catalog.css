@@ -3,13 +3,13 @@
     flex-wrap: wrap;
     justify-content : center;
     align-items : center;
-    font-size : 14px;
+    font-size : 12px;
     height: 500px;
 }
 
 .fruit_name {
     display: block;
-    font-size : 18px;
+    font-size : 15px;
     color : #f1b849;
 }
 
@@ -33,11 +33,11 @@
 }
 
 .No_VAT_Price {
-    font-size : 11px;
+    font-size : 10px;
 }
 
 .card_fruit button {
-    font-size : 11px;
+    font-size : 10px;
     background-color: #f1b849;
     position: relative;
     bottom: 1px;
