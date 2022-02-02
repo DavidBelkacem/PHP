@@ -1,3 +1,5 @@
+<?php session_start() ?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -22,7 +24,7 @@
         ?>
        
         <div class = "products">
-            <?php
+            <?php 
             foreach ($products as $fruit => $features) {
                 echo "<div class=\"card_${fruit} card_fruit\">";
                 foreach ($features as $feature => $value) {
@@ -48,9 +50,9 @@
                     } 
                 }
                 echo "<form method=\"POST\" action=\".\cart.php\">
-                    Quantity : <input type=\"number\" action=\"cart.php\" min=\"1\" name=\"quantity\" size=\"6\" required>
+                    Quantity : <input type=\"number\" min=\"1\" name=\"quantity\" size=\"6\" required>
                     <button type=\"submit\"> ADD TO BAG</button>
-                    <input type=\"hidden\" name=\"selectedFruit\" value=\"${fruit}\">
+                    <input type=\"hidden\" name=\"selectedFruit\" value=\"$fruit\">
                     </form>";
                 echo "</div>";
                 echo "<br> <br>";
