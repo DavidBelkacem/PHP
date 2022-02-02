@@ -45,10 +45,4 @@
 
     ];
 
-    echo "<pre>";
-    var_dump(array_keys($products));
-    var_dump(count($products));
-    var_dump(array_keys($products)[3]);
-    echo "</pre>";
-
 ?>

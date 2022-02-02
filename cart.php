@@ -13,6 +13,7 @@
     </head>
     <body>
         <?php 
+
             require "./array_products.php";
             require "./my_functions.php";
             include "./header.html";
@@ -21,7 +22,7 @@
 
             $articleValidation = false;
             for ($i = 0; $i < count($products); $i++) {
-                if ($selectedFruit === array_keys($products[$i])) {
+                if ($selectedFruit === array_keys($products)[$i]) {
                     $articleValidation = true;
                     break;
                 }
@@ -47,21 +48,12 @@
             $_SESSION[$selectedFruit]["name"] = $selectedFruit;
             $_SESSION[$selectedFruit]["quantity"] = $nbrOfFruits;
 
-            echo "<pre>";
-            var_dump($_SESSION);
-            echo "</pre>";
-            echo "<pre>";
-            var_dump($_POST);
-            echo "</pre>";
-
             $totalWeight = 0;
             if (isset($_SESSION)) {
                 foreach ($_SESSION as $fruit => $array_fruit) {
                     $totalWeight += ($products[$fruit]["weight"] * $array_fruit["quantity"]);
                 }
             }
-
-            var_dump($totalWeight);
 
         ?>
 
