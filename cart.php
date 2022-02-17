@@ -14,47 +14,59 @@
     <body>
         <?php 
 
-            require "./array_products.php";
-            require "./my_functions.php";
             include "./header.html";
+            require "./mysqlconnexion.php";
+            require "./my_functions.php";
+            require "./requestfunctions.php";
 
-            $selectedFruit = $_POST["selectedFruit"];
+            echo "<pre>";
+            echo "_POST";
+            var_dump($_POST);
+            echo "</pre>";
 
-            $articleValidation = false;
-            for ($i = 0; $i < count($products); $i++) {
-                if ($selectedFruit === array_keys($products)[$i]) {
-                    $articleValidation = true;
-                    break;
+            $productsdb = products($mysqlConnection);
+            if (!empty($_POST) && isset($_POST["quantity"]) && isset($_POST["selectedFruit"])) {
+                // vérifie que la quantité est bien un int positif
+                if (!is_numeric($_POST["quantity"]) || (is_numeric($_POST["quantity"]) && (($_POST["quantity"] < 1) || (strpos($_POST["quantity"], ".")))) ) {
+                    echo "Your entry is not valid, please enter a strictly positive integer. Come back to the <a href=\"http://localhost/PHP/multidimensional-catalogwithfunction.php\"> catalog </a>";
+                    exit;
+                } 
+                $selectedFruit = $_POST["selectedFruit"];
+                $nbrOfFruits = $_POST["quantity"];
+
+                $articleValidation = false;
+                for ($i = 0; $i < count($productsdb); $i++) {
+                    if ($selectedFruit === $productsdb[$i]["name"]) {
+                        $articleValidation = true;
+                        break;
+                    }
                 }
-            }
-
-            if (!$articleValidation) {
-                echo "Please, choose a valid item on the <a href=\"http://localhost/PHP/multidimensional-catalogwithfunction.php\"> catalog </a>";
-                exit;
-            }
-
-            if (empty($_POST)) {
+                if (!$articleValidation) {
+                    echo "Please, choose a valid item on the <a href=\"http://localhost/PHP/multidimensional-catalogwithfunction.php\"> catalog </a>";
+                    exit;
+                }
+                $_SESSION[$selectedFruit]["name"] = $selectedFruit;
+                $_SESSION[$selectedFruit]["quantity"] = $nbrOfFruits;
+            } elseif (empty($_POST) && empty($_SESSION)) {
                 echo "Please order an item on the page <a href=\"http://localhost/PHP/multidimensional-catalogwithfunction.php\"> catalog </a>";
                 exit;
-            // strpos est une fonction qui envoie true si le 2ème argument est contenu dans le premier (ici si on trouve un "." dans $_POST["quantity"])
-            // vérifie que la quantité est bien un nombre
-            } elseif (!is_numeric($_POST["quantity"]) || (is_numeric($_POST["quantity"]) && (($_POST["quantity"] < 1) || (strpos($_POST["quantity"], ".")))) ) {
-                echo "Your entry is not valid, please enter a strictly positive integer. Come back to the <a href=\"http://localhost/PHP/multidimensional-catalogwithfunction.php\"> catalog </a>";
-                exit;
-            } 
-            
-            $selectedFruit = $_POST["selectedFruit"];
-            $nbrOfFruits = $_POST["quantity"];
-            $_SESSION[$selectedFruit]["name"] = $selectedFruit;
-            $_SESSION[$selectedFruit]["quantity"] = $nbrOfFruits;
-
-            $totalWeight = 0;
-            if (isset($_SESSION)) {
-                foreach ($_SESSION as $fruit => $array_fruit) {
-                    $totalWeight += ($products[$fruit]["weight"] * $array_fruit["quantity"]);
-                }
             }
+            
+            echo "<pre>";
+            var_dump($_SESSION);
+            echo "</pre>";
 
+            echo "<pre>";
+            echo "products";
+            var_dump($productsdb);
+            echo "</pre>";
+
+            // $totalWeight = 0;
+            // if (isset($_SESSION)) {
+            //     foreach ($_SESSION as $fruit => $array_fruit) {
+            //         $totalWeight += ($products[$fruit]["weight"] * $array_fruit["quantity"]);
+            //     }
+            // }
         ?>
 
         <table class="table table-striped table-dark">
@@ -67,17 +79,18 @@
             </tr>
             
             <?php $totalPrice = 0; ?>
-            <?php foreach ($_SESSION as $fruit => $array_fruit) { ?> 
+            <?php foreach ($_SESSION as $fruitInCart => $array_fruit) { 
+                $fruitID = (int)getProductID($mysqlConnection, "'${fruitInCart}'") - 1;
+                ?> 
                 
             <tr>
-                
-                <td> <?= $fruit ?> </td>
-                <td> <?= formatPriceWithReturn($products[$fruit]["price"]) ?> </td>
-                <td> <?php  $discountedUnitPrice = (discountedPrice($products[$fruit]["price"], $products[$fruit]["discount"]));
-                    echo formatPriceWithReturn($discountedUnitPrice) ?> </td>
+                <td> <?= $fruitInCart?> </td>
+                <td> <?= formatPrice($productsdb[$fruitID]["price"])?> </td>
+                <td> <?php  $discountedUnitPrice = (discountedPrice($productsdb[$fruitID]["price"], $productsdb[$fruitID]["discount"]));
+                    echo formatPrice($discountedUnitPrice)   ?> </td>
                 <td> <?= formatNumber($array_fruit["quantity"]) ?> </td>
                 <td> <?php $totalPriceProduct = (calculateTotalPrice($discountedUnitPrice, $array_fruit["quantity"]));
-                    echo formatPriceWithReturn($totalPriceProduct) ?> </td>
+                    echo formatPrice($totalPriceProduct) ?> </td>
             </tr>
             <?php $totalPrice += $totalPriceProduct; ?>
             <?php } ?>
@@ -85,35 +98,35 @@
             <tr>
                 <td colspan="4" class="tableToStyle"> Excluding VAT total </td>
                 <td> <?php $excludingVATTotal = priceExcludingVAT($totalPrice);
-                    echo formatPriceWithReturn($excludingVATTotal) ?> </td>
+                    echo formatPrice($excludingVATTotal) ?> </td>
             </tr>
             
             <tr>
                 <td colspan="4"> VAT Total </td>
-                <td> <?= formatPriceWithReturn($totalPrice - $excludingVATTotal) ?> </td>
+                <td> <?= formatPrice($totalPrice - $excludingVATTotal) ?> </td>
             </tr>
 
             <tr>
                 <td colspan="4"> Including VAT Total </td>
-                <td> <?= formatPriceWithReturn($totalPrice) ?> </td>
+                <td> <?= formatPrice($totalPrice) ?> </td>
             </tr>
             
             <?php 
-                if (isset($_POST["carrier"])) {
-                    if ($_POST["carrier"] === "La Poste") {
-                        $shippingCosts = shippingCostsLAPoste($totalWeight, $totalPrice);
-                    } else {
-                        $shippingCosts = shippingCostsDHL($totalWeight, $totalPrice);
-                    }
-                    $totalWithShippingCosts = $totalPrice + $shippingCosts;
-                }
-            ?>
+            //     if (isset($_POST["carrier"])) {
+            //         if ($_POST["carrier"] === "La Poste") {
+            //             $shippingCosts = shippingCostsLAPoste($totalWeight, $totalPrice);
+            //         } else {
+            //             $shippingCosts = shippingCostsDHL($totalWeight, $totalPrice);
+            //         }
+            //         $totalWithShippingCosts = $totalPrice + $shippingCosts;
+            //     }
+            // ?>
 
             <tr>
                 <?php
                 if (isset($shippingCosts)) {
                     echo "<td colspan=\"4\"> Shipping Costs </td>";
-                    echo "<td>" . formatPriceWithReturn($shippingCosts) . "</td>" ;
+                    echo "<td>" . formatPrice($shippingCosts) . "</td>" ;
                 } ?>
             </tr>
 
@@ -121,15 +134,13 @@
                 <?php 
                     if (isset($shippingCosts)) {
                         echo "<td colspan=\"4\"> Total with shipping costs </td>";
-                        echo "<td>" . formatPriceWithReturn($totalWithShippingCosts) ."</td>";
+                        echo "<td>" . formatPrice($totalWithShippingCosts) ."</td>";
                     }
                 ?>
             </tr>
         </table>
 
         <form method="POST">
-            <input type="hidden" name="selectedFruit" value="<?= $selectedFruit ?>">
-            <input type="hidden" name="quantity" value="<?= $nbrOfFruits ?>">
             <label for="select_carrier"> Select a carrier </label>
             <select name="carrier" id="select_carrier" required="">
                 <option value=""> Please choose a carrier </option>

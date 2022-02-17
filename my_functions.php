@@ -1,9 +1,5 @@
 <?php
     function formatPrice(float $price) {
-        echo number_format($price/100, 2, ".") . " €";
-    }
-
-    function formatPriceWithReturn(float $price) {
         return number_format($price/100, 2, ",", " ") ;
     }
 
@@ -19,15 +15,16 @@
         return $price * (1 - ($discount)/100);
     }
 
-    function displayCrossedOutPrice(float $price) {
-        echo "<br> <del> Price : ";
+    function displayCrossedOutPrice($price) {
+        echo "<br> <del class='exPrice'> Price : ";
         formatPrice($price);
         echo "</del>";
     }
 
     function displayPrice(float $price) {
-        echo "<br> Price : ";
+        echo "<br> <span class='price'> Price : ";
         formatPrice($price);
+        echo "</span>";
     }
 
     function displayNoVATPrice (float $price) {
@@ -37,7 +34,7 @@
         echo " ) </span> <br>";
     }
     
-    function displayDiscountedPrice(float $price, int $discount) {
+    function displayDiscountedPrice($price, $discount) {
         echo "NEW PRICE ! ${discount} % discount : ";
         formatPrice(discountedPrice($price, $discount));
     }

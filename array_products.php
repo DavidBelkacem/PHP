@@ -31,8 +31,8 @@
         "Dragon Fruit" => [
             "name" => "dragonfruit",
             "picture_url" => "https://www.foodness.it/wp-content/uploads/2018/08/foodness-dragon-fruit-300x300.jpg",
-            "price" => 143,
-            "weight" => 120,
+            "price" => 1025,
+            "weight" => 700,
             "discount" => 8,
         ],   
         "Chayote" => [

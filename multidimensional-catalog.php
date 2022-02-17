@@ -15,8 +15,7 @@ $products = [
         "picture_url" => "https://lescureviandesetprimeur.com/wp-content/uploads/2020/04/ananas-pain-de-sucre-cayenne.jpg",
     ],   
 ];
-
 echo '<pre>';
 var_dump($products);
-
+echo '</pre>';
 ?>
