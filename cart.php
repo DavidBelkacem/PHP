@@ -28,7 +28,7 @@
             if (!empty($_POST) && isset($_POST["quantity"]) && isset($_POST["selectedFruit"])) {
                 // vérifie que la quantité est bien un int positif
                 if (!is_numeric($_POST["quantity"]) || (is_numeric($_POST["quantity"]) && (($_POST["quantity"] < 1) || (strpos($_POST["quantity"], ".")))) ) {
-                    echo "Your entry is not valid, please enter a strictly positive integer. Come back to the <a href=\"http://localhost/PHP/multidimensional-catalogwithfunction.php\"> catalog </a>";
+                    echo "Your entry is not valid, please enter a strictly positive integer. Come back to the <a href=\"http://localhost/PHP/multidimensional-catalogwithfunctioncopy3.php\"> catalog </a>";
                     exit;
                 } 
                 $selectedFruit = $_POST["selectedFruit"];
@@ -42,7 +42,7 @@
                     }
                 }
                 if (!$articleValidation) {
-                    echo "Please, choose a valid item on the <a href=\"http://localhost/PHP/multidimensional-catalogwithfunction.php/\"> catalog </a>";
+                    echo "Please, choose a valid item on the <a href=\"http://localhost/PHP/multidimensional-catalogwithfunctioncopy3.php/\"> catalog </a>";
                     exit;
                 }
                 $_SESSION["fruit"][$selectedFruit]["name"] = $selectedFruit;
@@ -51,7 +51,7 @@
                 echo "Go back to the cart : <a href=\"http://localhost/PHP/cart.php\"> Cart </a>";
                 exit;
             } elseif (empty($_POST) && empty($_SESSION)) {
-                echo "Please order an item on the page <a href=\"http://localhost/PHP/multidimensional-catalogwithfunction.php/\"> catalog </a>";
+                echo "Please order an item on the page <a href=\"http://localhost/PHP/multidimensional-catalogwithfunctioncopy3.php/\"> catalog </a>";
                 exit;
             }
             
@@ -59,10 +59,10 @@
             var_dump($_SESSION);
             echo "</pre>";
 
-            // echo "<pre>";
-            // echo "products";
-            // var_dump($productsdb);
-            // echo "</pre>";
+            echo "<pre>";
+            echo "products";
+            var_dump($productsdb);
+            echo "</pre>";
 
             // $totalWeight = 0;
             // if (isset($_SESSION)) {
@@ -149,13 +149,16 @@
             <form method="POST" action=".\checkout.php">
                 <button class="buttonOrder" type="submit"> Order </button>
             </form>
-            <a href= "multidimensional-catalogwithfunction copy 3.php">
+            <a href= "multidimensional-catalogwithfunctioncopy3.php">
                 <button class="buttonCatalog" type="submit"> Back to catalog </button>
             </a>
         <?php } else {?>
             <form method="POST">
                 <button class="button-pay" type="submit"> Pay </button>
             </form>
+            <a href= "multidimensional-catalogwithfunctioncopy3.php">
+            <button class="buttonCatalog" type="submit"> Back to catalog </button>
+            </a>
         <?php } ?>
         <!--  <form method="POST">
              <label for="select_carrier"> Select a carrier </label>
