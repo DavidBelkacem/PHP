@@ -23,6 +23,10 @@
             require "./my_functions.php";
             include "./header.html";
             $products = products($mysqlConnection);
+            // echo "<pre>";
+            // var_dump($products);
+            // echo "</pre>";
+
         ?>
        
         <div class = "products">
@@ -31,8 +35,10 @@
                 $fruitName = $fruitFeatures["name"];
                 echo "<div class=\"card_${fruitName} card_fruit\">";
                 foreach ($fruitFeatures as $feature => $value) {
-                    if ($feature === "price") {
+                    if ($feature === "name") {
                         echo "<div class= \"fruit_name\"> $fruitName </div>";
+                    }
+                    if ($feature === "price") {
                         if ($fruitFeatures["discount"] != 0) {
                             displayCrossedOutPrice($fruitFeatures["price"]);
                         } else {

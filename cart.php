@@ -19,10 +19,10 @@
             require "./my_functions.php";
             require "./requestfunctions.php";
 
-            echo "<pre>";
-            echo "_POST";
-            var_dump($_POST);
-            echo "</pre>";
+            // echo "<pre>";
+            // echo "_POST";
+            // var_dump($_POST);
+            // echo "</pre>";
 
             $productsdb = products($mysqlConnection);
             if (!empty($_POST) && isset($_POST["quantity"]) && isset($_POST["selectedFruit"])) {
@@ -42,13 +42,16 @@
                     }
                 }
                 if (!$articleValidation) {
-                    echo "Please, choose a valid item on the <a href=\"http://localhost/PHP/multidimensional-catalogwithfunction.php\"> catalog </a>";
+                    echo "Please, choose a valid item on the <a href=\"http://localhost/PHP/multidimensional-catalogwithfunction.php/\"> catalog </a>";
                     exit;
                 }
-                $_SESSION[$selectedFruit]["name"] = $selectedFruit;
-                $_SESSION[$selectedFruit]["quantity"] = $nbrOfFruits;
+                $_SESSION["fruit"][$selectedFruit]["name"] = $selectedFruit;
+                $_SESSION["fruit"][$selectedFruit]["quantity"] = $nbrOfFruits;
+            } elseif (!empty($_POST) && !isset($_POST["carrier"])) {
+                echo "Go back to the cart : <a href=\"http://localhost/PHP/cart.php\"> Cart </a>";
+                exit;
             } elseif (empty($_POST) && empty($_SESSION)) {
-                echo "Please order an item on the page <a href=\"http://localhost/PHP/multidimensional-catalogwithfunction.php\"> catalog </a>";
+                echo "Please order an item on the page <a href=\"http://localhost/PHP/multidimensional-catalogwithfunction.php/\"> catalog </a>";
                 exit;
             }
             
@@ -56,10 +59,10 @@
             var_dump($_SESSION);
             echo "</pre>";
 
-            echo "<pre>";
-            echo "products";
-            var_dump($productsdb);
-            echo "</pre>";
+            // echo "<pre>";
+            // echo "products";
+            // var_dump($productsdb);
+            // echo "</pre>";
 
             // $totalWeight = 0;
             // if (isset($_SESSION)) {
@@ -79,7 +82,7 @@
             </tr>
             
             <?php $totalPrice = 0; ?>
-            <?php foreach ($_SESSION as $fruitInCart => $array_fruit) { 
+            <?php foreach ($_SESSION["fruit"] as $fruitInCart => $array_fruit) { 
                 $fruitID = (int)getProductID($mysqlConnection, "'${fruitInCart}'") - 1;
                 ?> 
                 
@@ -140,15 +143,29 @@
             </tr>
         </table>
 
-        <form method="POST">
-            <label for="select_carrier"> Select a carrier </label>
-            <select name="carrier" id="select_carrier" required="">
-                <option value=""> Please choose a carrier </option>
-                <option value="La Poste" > La Poste </option>
-                <option value="DHL"> DHL </option>
-            </select>
-            <button type="submit"> Send </button>
-        </form>
+        
+        <?php 
+        if (!isset($_SESSION["login"])) { ?>
+            <form method="POST" action=".\checkout.php">
+                <button class="buttonOrder" type="submit"> Order </button>
+            </form>
+            <a href= "multidimensional-catalogwithfunction copy 3.php">
+                <button class="buttonCatalog" type="submit"> Back to catalog </button>
+            </a>
+        <?php } else {?>
+            <form method="POST">
+                <button class="button-pay" type="submit"> Pay </button>
+            </form>
+        <?php } ?>
+        <!--  <form method="POST">
+             <label for="select_carrier"> Select a carrier </label>
+             <select name="carrier" id="select_carrier" required="">
+                 <option value=""> Please choose a carrier </option>
+                 <option value="La Poste" > La Poste </option>
+                 <option value="DHL"> DHL </option>
+             </select>
+             <button type="submit"> Send </button>
+         </form> -->
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 

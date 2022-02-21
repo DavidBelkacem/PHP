@@ -1,9 +1,9 @@
 <?php
-    function formatPrice(float $price) {
-        return number_format($price/100, 2, ",", " ") ;
+    function formatPrice($price) {
+        echo number_format($price/100, 2, ",", " ");
     }
 
-    function formatNumber(int $number) {
+    function formatNumber($number) {
         return number_format($number, 0, ",", " ");
     }
 
