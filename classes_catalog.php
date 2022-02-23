@@ -1,7 +1,7 @@
 <?php 
     class Item {
         protected string $name;
-        protected int $price;
+        protected string $price;
         protected string $imageUrl;
         protected int $weight;
         protected int $discount;
@@ -10,7 +10,18 @@
 
         public function displayFruitPicture($url, $alt) {
                 echo "<img src=${url} alt=${alt}>" ;
-            }
+        }
+        
+        public function displayPrice(float $price) {
+                echo "<br> <span class='price'> Price : ";
+                formatPrice($price);
+                echo " £ </span>";
+        }
+
+        public function formatPrice($price) {
+                return number_format($price, 2, ",", " ");
+        }
+        
 
         public function getName()
         {
@@ -98,26 +109,20 @@
     }
 
     class Catalog {
-            protected array $items;
+            protected array $items2;
                 
             public function __construct($database) {
                 $catalogDatasStatement = $database->query(
                         "SELECT * FROM products"
                 );
                 $catalogDatas = $catalogDatasStatement->fetchAll(PDO::FETCH_ASSOC);
-                $this->items = $catalogDatas;
+                $this->items2 = $catalogDatas;
             }
  
             public function getItems()
             {
-                        return $this->items;
+                        return $this->items2;
             }
 
-            public function setItems($items)
-            {
-                        $this->items = $items;
-
-                        return $this;
-            }
     }
 ?>

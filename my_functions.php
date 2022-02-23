@@ -1,6 +1,6 @@
 <?php
     function formatPrice($price) {
-        echo number_format($price/100, 2, ",", " ");
+        echo number_format($price, 2, ",", " ");
     }
 
     function formatNumber($number) {
