@@ -22,7 +22,7 @@
             require "./requestfunctions.php";
             require "./my_functions.php";
             include "./header.html";
-            $products = products($mysqlConnection);
+            $products = products($db);
             // echo "<pre>";
             // var_dump($products);
             // echo "</pre>";

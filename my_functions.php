@@ -18,29 +18,30 @@
     function displayCrossedOutPrice($price) {
         echo "<br> <del class='exPrice'> Price : ";
         formatPrice($price);
-        echo "</del>";
+        echo " £ </del>";
     }
 
     function displayPrice(float $price) {
         echo "<br> <span class='price'> Price : ";
         formatPrice($price);
-        echo "</span>";
+        echo " £ </span>";
     }
 
     function displayNoVATPrice (float $price) {
         $priceNoVAT = priceExcludingVAT($price);
         echo "<br>" . "<span class =\"No_VAT_Price\"> (Excluding VAT : "; 
         formatPrice($priceNoVAT);
-        echo " ) </span> <br>";
+        echo " £ ) </span> <br>";
     }
     
     function displayDiscountedPrice($price, $discount) {
-        echo "NEW PRICE ! ${discount} % discount : ";
+        echo "${discount} % discount ! NEW PRICE : ";
         formatPrice(discountedPrice($price, $discount));
+        echo " £";
     }
     
     function displayFruitPicture($url, $alt) {
-        echo "<img class=\"fruitPicture\" src=${url} alt=${alt}>" ;
+        echo "<img class='fruitPicture' src=${url} alt=${alt}>" ;
     }
 
     function calculateTotalPrice(string $price, string $quantity) {

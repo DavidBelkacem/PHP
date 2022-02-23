@@ -24,7 +24,7 @@
             // var_dump($_POST);
             // echo "</pre>";
 
-            $productsdb = products($mysqlConnection);
+            $productsdb = products($db);
             if (!empty($_POST) && isset($_POST["quantity"]) && isset($_POST["selectedFruit"])) {
                 // vérifie que la quantité est bien un int positif
                 if (!is_numeric($_POST["quantity"]) || (is_numeric($_POST["quantity"]) && (($_POST["quantity"] < 1) || (strpos($_POST["quantity"], ".")))) ) {
@@ -83,7 +83,7 @@
             
             <?php $totalPrice = 0; ?>
             <?php foreach ($_SESSION["fruit"] as $fruitInCart => $array_fruit) { 
-                $fruitID = (int)getProductID($mysqlConnection, "'${fruitInCart}'") - 1;
+                $fruitID = (int)getProductID($db, "'${fruitInCart}'") - 1;
                 ?> 
                 
             <tr>

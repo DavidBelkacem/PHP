@@ -21,44 +21,41 @@
             include "./header.html";
             require "./mysqlconnexion.php";
             require "./requestfunctionsclass.php";
-            require "./my_functions.php";
-            require "./Class_Item.php";
-            // echo "<pre>";
-            // var_dump($mysqlConnection);
-            // echo "</pre>";
-            // $productlist = $mysqlConnection->query("SELECT * FROM products");
-            // $result=$productlist->fetchAll();
-            // var_dump($result);
-
-
+            require "./classes_catalog.php";
         ?>
        
         <div class = "products">
-            <!-- public function getProductData($mysqlConnection, string $name, $information) {
-                $productDataStatement = $mysqlConnection->query(
-                    "SELECT $information FROM products WHERE name = '$name'"
-                );
-                $productData = $productDataStatement->fetchAll();
-                return $productData;
-            }
-            public function __construct(string $name) {
-                $this->name = $name;  
-                $this->price = getProductData($mysqlConnection, $name, "price");
-            } -->
+            <?php
+            // function getProductData($mysqlConnection, string $name, $information) {
+            //     $productDataStatement = $mysqlConnection->query(
+            //         "SELECT $information FROM products WHERE name = '$name'"
+            //     );
+            //     $productData = $productDataStatement->fetchAll(PDO::FETCH_ASSOC);
+            //     return $productData;
+            // }
+            ?>
         
             <?php 
 
-                $item_1 = new Item();
-                $item_1->name = "pomegrenate";
-
                 function displayItem(Item $product) {
-                    echo "<div class=\"card_" . $product->name . " card_fruit\">";
-                    echo $product->name ;
-
-                    echo "</div>";
+                    return '<div class="card_' . $product->getName() . '" card_fruit">
+                                <div class="fruit_name">' . $product->getName() . '</div>
+                                <div class="fruit_price">' . $product->getPrice() . '</div>
+                                <img class="fruit_picture" src=' . $product->getImageUrl() . ' alt="' . $product->getName() . '_picture">  
+                            </div>';
                 }
-            
-                displayItem($item_1);
+
+                function displayCatalog(Catalog $catalog) {
+                    foreach ($catalog as $fruit) {
+                        $item = new Item();
+                        echo displayItem($fruit);
+                    }
+                }
+               
+                echo displayItem($item_1);
+
+                $items = new Catalog($db);
+                var_dump($items);
 
             ?>
         </div>    
