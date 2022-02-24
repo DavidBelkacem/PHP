@@ -1,6 +1,7 @@
 <?php
+
     function formatPrice($price) {
-        echo number_format($price, 2, ",", " ");
+        echo number_format($price/100, 2, ",", " ");
     }
 
     function formatNumber($number) {
@@ -72,5 +73,30 @@
         return ($unitWeight * $quantity) ;
     }
 
+    function generateRandomNumberOrder($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    function testGenerateRandomString($sqlConnection) {
+        $numbersOrders = selectNumbersOrders($sqlConnection);
+        $randomNumberOrder = generateRandomNumberOrder();
+        $uniqueNumberOrder = false;
+        while (!$uniqueNumberOrder) {
+            foreach ($numbersOrders as $numberOrder) {
+                if ($randomNumberOrder == $numberOrder) {
+                    $randomNumberOrder = generateRandomNumberOrder();
+                    break;
+                }
+            }
+            $uniqueNumberOrder = true;
+        }
+        return $randomNumberOrder;
+    }
 
 ?>

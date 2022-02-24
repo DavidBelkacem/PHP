@@ -9,7 +9,7 @@
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <link rel="stylesheet" href="./styles/style_cart.css"/>
-        <title>Document</title>
+        <title>Cart</title>
     </head>
     <body>
         <?php 
@@ -18,11 +18,6 @@
             require "./mysqlconnexion.php";
             require "./my_functions.php";
             require "./requestfunctions.php";
-
-            // echo "<pre>";
-            // echo "_POST";
-            // var_dump($_POST);
-            // echo "</pre>";
 
             $productsdb = products($db);
             if (!empty($_POST) && isset($_POST["quantity"]) && isset($_POST["selectedFruit"])) {
@@ -47,14 +42,20 @@
                 }
                 $_SESSION["fruit"][$selectedFruit]["name"] = $selectedFruit;
                 $_SESSION["fruit"][$selectedFruit]["quantity"] = $nbrOfFruits;
-            } elseif (!empty($_POST) && !isset($_POST["carrier"])) {
-                echo "Go back to the cart : <a href=\"http://localhost/PHP/cart.php\"> Cart </a>";
-                exit;
+            // } 
+            // elseif (!empty($_POST) && !isset($_POST["carrier"])) {
+            //     echo "Go back to the cart : <a href=\"http://localhost/PHP/cart.php\"> Cart </a>";
+            //     exit;
             } elseif (empty($_POST) && empty($_SESSION)) {
                 echo "Please order an item on the page <a href=\"http://localhost/PHP/multidimensional-catalogwithfunctioncopy3.php/\"> catalog </a>";
                 exit;
             }
             
+            if (isset($_POST["payButton"]) && ($_POST["payButton"] == "yes")) {
+                $orderNumber = testGenerateRandomString($db);
+                echo $orderNumber;
+            }
+
             echo "<pre>";
             var_dump($_SESSION);
             echo "</pre>";
@@ -154,7 +155,8 @@
             </a>
         <?php } else {?>
             <form method="POST">
-                <button class="button-pay" type="submit"> Pay </button>
+
+                <button class="button-pay" type="submit" name="payButton" value="yes"> Pay </button>
             </form>
             <a href= "multidimensional-catalogwithfunctioncopy3.php">
             <button class="buttonCatalog" type="submit"> Back to catalog </button>

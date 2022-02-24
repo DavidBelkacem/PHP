@@ -20,12 +20,12 @@
             <?php 
                 $signInValidation = false;
                 if (!empty($_POST)) {
-                    $passwordcheck = checkEmailPassword($mysqlConnection, $_POST["sign-in-email"])[0]["password"];
+                    $passwordcheck = checkUsernamePassword($db, $_POST["sign-in-username"])[0]["password"];
                     // echo "<pre>";
                     // var_dump($passwordcheck);
                     // echo "</pre>";
                     if ($passwordcheck === $_POST["sign-in-password"]) {
-                        $_SESSION["login"]["email"] = $_POST["sign-in-email"];
+                        $_SESSION["login"]["username"] = $_POST["sign-in-username"];
                         header("Location: ./cart.php");
                     }
                 }
@@ -35,8 +35,8 @@
                 // var_dump($signInValidation);
             ?>
             <form method="POST" >
-                <label class="sign-in-email-label" for="sign-in-email"> Email :  </label>
-                <input type="text" id="sign-in-email" name="sign-in-email"> 
+                <label class="sign-in-username-label" for="sign-in-username"> Username :  </label>
+                <input type="text" id="sign-in-username" name="sign-in-username"> 
                 <label class="sign-in-password-label" for="sign-in-password"> Password : </label>
                 <input type="text" id="sign-in-password" name="sign-in-password">
                 <button class="buttonSignIn" type="submit"> Sign in </button>

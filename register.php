@@ -14,7 +14,7 @@
             require "./requestfunctions.php";
 
             $register_inputs= array(
-                array("register-email", "Email  ", "email"), 
+                array("register-username", "Username  ", "username"), 
                 array("register-first-name", "First Name ", "text"),
                 array("register-last-name", "Last Name ", "text"),
                 array("register-password", "Password", "text"),
@@ -39,8 +39,8 @@
                 }
                 // echo $error . "<br>";
                 if ($error === 0) {
-                    insertNewCustomer($mysqlConnection, $_POST["register-first-name"], 
-                    $_POST["register-last-name"], $_POST["register-email"], $_POST["register-password"]);
+                    insertNewCustomer($db, $_POST["register-first-name"], 
+                    $_POST["register-last-name"], $_POST["register-username"], $_POST["register-password"]);
                     header("Location: ./checkout.php");
                 }
             }
