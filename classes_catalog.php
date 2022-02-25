@@ -19,7 +19,7 @@
         }
 
         public function formatPrice($price) {
-                return number_format($price, 2, ",", " ");
+                return number_format($price, 2, ",", " ") . " $";
         }
         
 
@@ -108,21 +108,37 @@
         }
     }
 
-    class Catalog {
-            protected array $items2;
-                
-            public function __construct($database) {
-                $catalogDatasStatement = $database->query(
-                        "SELECT * FROM products"
-                );
-                $catalogDatas = $catalogDatasStatement->fetchAll(PDO::FETCH_ASSOC);
-                $this->items2 = $catalogDatas;
-            }
- 
-            public function getItems()
-            {
-                        return $this->items2;
-            }
+    class Fruit extends Item {
+        protected string $description;
 
+        public function getDescription()
+        {
+                return $this->description;
+        }
+
+        public function setDescription($description)
+        {
+                $this->description = $description;
+
+                return $this;
+        }
+    }
+            
+
+    class Catalog {
+        protected array $items;
+        
+        public function __construct($database) {
+        $catalogDatasStatement = $database->query(
+                "SELECT * FROM products"
+        );
+        $catalogDatas = $catalogDatasStatement->fetchAll(PDO::FETCH_ASSOC);
+        $this->items = $catalogDatas;
+        }
+
+        public function getItems()
+        {
+                return $this->items;
+        }
     }
 ?>

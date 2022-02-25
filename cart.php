@@ -18,7 +18,7 @@
             require "./mysqlconnexion.php";
             require "./my_functions.php";
             require "./requestfunctions.php";
-
+    
             $productsdb = products($db);
             if (!empty($_POST) && isset($_POST["quantity"]) && isset($_POST["selectedFruit"])) {
                 // vérifie que la quantité est bien un int positif
@@ -53,17 +53,23 @@
             
             if (isset($_POST["payButton"]) && ($_POST["payButton"] == "yes")) {
                 $orderNumber = testGenerateRandomString($db);
-                echo $orderNumber;
+                insertNewOrder($db, $orderNumber, $_SESSION["login"]["username"]);
+                foreach ($_SESSION["fruit"] as $fruitName => $orderedFruitFeatures) {
+                    insertNewOrderProduct($db, $fruitName, $orderedFruitFeatures["quantity"], $orderNumber);
+                }
+                echo "Thanks for your order !";
+                session_destroy();
+                exit;
             }
 
-            echo "<pre>";
-            var_dump($_SESSION);
-            echo "</pre>";
+            // echo "<pre>";
+            // var_dump($_SESSION);
+            // echo "</pre>";
 
-            echo "<pre>";
-            echo "products";
-            var_dump($productsdb);
-            echo "</pre>";
+            // echo "<pre>";
+            // echo "products";
+            // var_dump($productsdb);
+            // echo "</pre>";
 
             // $totalWeight = 0;
             // if (isset($_SESSION)) {

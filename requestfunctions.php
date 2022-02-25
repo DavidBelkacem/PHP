@@ -38,5 +38,22 @@
         $numberOrder = $numberOrderStatement->fetchAll(PDO::FETCH_COLUMN);
         return $numberOrder;
     }
-    // function insertNewOrder($sqlConnection, )
+
+    function insertNewOrder($sqlConnection, $numberOrder, $username) {
+        $insertNewOrderStatement = $sqlConnection->query(
+            "INSERT INTO orders (number, date, customer_id)
+            VALUES
+            ('${numberOrder}', CURRENT_DATE, (SELECT id FROM customers WHERE username = '${username}'))"
+        );
+    }
+
+    function insertNewOrderProduct($sqlConnection, $productName, $quantity, $numberOrder) {
+        $insertNewOrderProductStatement = $sqlConnection->query(
+            "INSERT INTO order_product (order_id, product_id, quantity)
+            VALUES
+            ((SELECT id FROM orders WHERE `number` = '${numberOrder}'), 
+            (SELECT id FROM products WHERE `name` = '${productName}'),
+            '${quantity}')"
+        );
+    }
 ?>

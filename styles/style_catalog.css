@@ -34,6 +34,12 @@
     width: 300px;
 }
 
+.fruitPicture {
+    border-radius : 15%;
+    height: 300px;
+    width: 300px;
+}
+
 .No_VAT_Price {
     font-size : 10px;
 }
